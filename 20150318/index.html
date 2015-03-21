@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      img {
+        max-width: 100%;
+      }
+
+      body {
+        font-family: 'Droid Serif';
+        font-size: 100%;
+        color: #333;
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      h1, h2, h3, p {
+        margin-top: 1rem;
+        margin-bottom: 0.25rem;
+      }
+      h2 {
+        color: #888;
+      }
+      a {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1,
+      .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+      .inverse h2 {
+        color: #a3a3a3;
+      }
+      .remark-slide-content.left {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: heading
+class: center, middle, inverse
+---
+template: heading
+# Kode
+
+## Torgeir Thoresen
+## @torgeir
+---
+template: heading
+class: left
+
+# Agenda
+
+## - Samarbeide om kode
+
+## - God kode
+
+## - Arduino-kode
+
+## - Biblioteker
+
+## - Klasser og Objekter
+
+## - Bordtennis-prosjektet
+---
+template: heading
+
+# Samarbeide om kode
+## Hvordan kan vi samarbeide når kodebasen blir større
+
+---
+class: center, middle
+
+# Git og Github
+## Versjonskontroll og et samarbeidsverktøy for kodebaser
+
+---
+class: center
+
+# Github
+## for OS X
+
+<img src="github-osx.png"/>
+
+---
+class: center
+
+# Github
+## for Windows
+
+<img src="github-win.png"/>
+
+---
+class: center, middle
+
+# Github
+## Demo
+
+---
+# Terminologi
+
+## Repository
+
+Kildekodefiler er samlet i et repository, feks hos Github
+
+## Branch
+
+En gren av koden, man kan ha mange parallelle grener
+
+## Merge
+
+Å slå sammen flere grener av koden til én
+
+## Pull request
+
+Forespørsel om å slå en gren sammen med resten av koden
+
+Vise forskjeller, endrede filer, hvem som har gjort hva
+
+Kommentere på individuelle linjer
+---
+template: heading
+
+# God kode
+## Hva er god kode for deg?
+---
+class: center, middle
+<img src="wtf-per-minute.jpg" />
+---
+# Ryddig og enkel
+## Forståelig
+## Uvidbar
+## Vedlikeholdbar
+---
+# Kommuniserer godt
+## Uttrykksfull
+## Selvforklarende
+## Kommuniserer intensjon
+---
+# Modulær
+## Ansvarsfordeling (Separation of concerns)
+## Løser ikke alle problemer på én gang
+## Gjør én ting, gjør det godt
+---
+template: heading
+
+# Arduino-kode
+## Kan Arduino-kode være god og gjenbrukbar?
+
+---
+# Button + Led
+```c
+const int buttonPin = 2;     // the number of the pushbutton pin
+const int ledPin =  13;      // the number of the LED pin
+
+// variables will change:
+int buttonState = 0;         // variable for reading the pushbutton status
+
+void setup() {
+  // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT);
+}
+
+void loop(){
+  // read the state of the pushbutton value:
+  buttonState = digitalRead(buttonPin);
+
+  // check if the pushbutton is pressed.
+  // if it is, the buttonState is HIGH:
+  if (buttonState == HIGH) {
+    // turn LED on:
+    digitalWrite(ledPin, HIGH);
+  }
+  else {
+    // turn LED off:
+    digitalWrite(ledPin, LOW);
+  }
+}
+```
+---
+# Button + Led
+```c
+const int buttonPin = 2;
+const int ledPin =  13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+  if (isButtonDown()) {
+    turnLedOn();
+  }
+  else {
+    turnLedOff();
+  }
+}
+
+bool isButtonDown() {
+  int buttonState = digitalRead(buttonPin);
+  return buttonState == HIGH;
+}
+
+void turnOnLed() {
+  digitalWrite(ledPin, HIGH);
+}
+
+void turnOffLed() {
+  digitalWrite(ledPin, LOW);
+}
+```
+
+---
+
+# Biblioteker
+
+## https://github.com/mathertel/OneButton
+
+```c
+#include "OneButton.h"
+
+OneButton button(2);
+int ledPin = 12;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  button.attachDoubleClick(onDoubleClick);
+}
+
+void loop() {
+  button.tick();
+}
+
+void onDoubleClick() {
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+}
+```
+
+---
+template: heading
+
+# Klasser og Objekter med Arduino
+
+## c++
+
+---
+class: middle
+
+# Klasse
+
+## Beskriver et konsept
+
+## Beskriver oppførsel
+
+## Et "blueprint"
+
+<img src="blueprint-car.png"/>
+
+---
+
+# Objekt
+
+## Realisering av en klasse
+
+## Eksisterer når et program kjører
+
+<img src="batmobile.png"/>
+
+---
+# Hva skjer hvis vi trenger enda en knapp? Eller enda et led?
+
+```c
+const int buttonPin = 2;
+const int ledPin =  13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin);
+
+  if (buttonState == HIGH) {
+    digitalWrite(ledPin, HIGH);
+  }
+  else {
+    digitalWrite(ledPin, LOW);
+  }
+}
+```
+
+---
+# En Button-klasse
+## Button.h
+```c
+#include "Arduino.h"
+
+class Button {
+  public:
+    Button(int pin);
+    bool isDown();
+  private:
+    int _pin;
+}
+```
+
+---
+# En gjenbrukbar Button!
+
+```c
+#include "Button.h"
+
+Button button(2);
+const int ledPin =  13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  if (button.isDown()) {
+    digitalWrite(ledPin, HIGH);
+  }
+  else {
+    digitalWrite(ledPin, LOW);
+  }
+}
+```
+---
+
+# Hvordan virker det?
+
+<img src="class.png"/>
+
+---
+
+## Led.h
+```c
+#include "Arduino.h"
+
+class Led {
+  public:
+    Led(int pin);
+    void on();
+    void off();
+  private:
+    int _pin;
+}
+```
+
+--
+
+## Led.cpp
+```c
+Led::Led(int pin) {
+  _pin = pin;
+  pinMode(_pin, OUTPUT);
+}
+
+void Led::on() {
+  digitalWrite(_pin, HIGH);
+}
+
+void Led::off() {
+  digitalWrite(_pin, LOW);
+}
+```
+
+---
+# Hva, og ikke hvordan!
+
+```c
+#include "Button.h"
+#include "Led.h"
+
+Button button(2);
+Led led(13);
+
+void setup() {
+
+}
+
+void loop() {
+
+  if (button.isDown()) {
+    led.on();
+  }
+  else {
+    led.off();
+  }
+}
+```
+---
+template: heading
+
+# Bordtennis-prosjektet
+
+## Et internet-enabled bordtennisbord!
+
+https://github.com/bekk/bekkboard
+---
+
+# Teknologi
+
+## Mini bordtennisbord
+
+## Flipperspill-knapper festet til bordet
+
+## RFduino med bluetooth low energy
+
+## Raspberry PI med bluetooth dongle
+
+## Node web server på Raspberry PIen
+
+## Nettside som viser hvem som spiller, live score, nedtelling
+
+## Elo ranking
+
+---
+class: center
+<img src="tdc-8.jpg" style="max-width: 60%"/>
+---
+class: center
+<img src="tdc-7.jpg" style="max-width: 60%"/>
+---
+class: center
+<img src="tdc-6.jpg" style="max-width: 60%"/>
+---
+<img src="tdc-10.jpg"/>
+---
+<img src="tdc-11.jpg"/>
+---
+class: center
+<img src="tdc-12.jpg" style="max-width: 100%"/>
+---
+<img src="tdc-4.jpg"/>
+---
+class: center
+<img src="tdc-5.jpg" style="max-width: 60%"/>
+---
+<img src="tdc-1.png"/>
+---
+class: center
+<img src="tdc-2.png" style="max-width: 63%"/>
+---
+<img src="tdc-3.png"/>
+---
+template: heading
+
+# Takk for meg!
+
+## Torgeir Thoresen
+## <a href="http://twitter.com/torgeir">@torgeir</a>
+
+---
+# Jeremy Blum
+## Arduino tutorials
+
+https://www.youtube.com/playlist?list=PLA567CE235D39FA84
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+        highlightStyle: 'monokai'
+      });
+    </script>
+  </body>
+</html>
